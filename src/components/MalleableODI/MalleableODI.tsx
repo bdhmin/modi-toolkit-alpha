@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../styles/globals.css';
 
 interface MalleableODIProps {
@@ -13,13 +13,26 @@ interface MalleableODIProps {
 
 // export function MalleableODI({ itemList, children }: MalleableODIProps) {
 export function MalleableODI({ itemList, children }: MalleableODIProps) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   return (
-    <div className="w-full h-fit border flex flex-row justify-evenly">
-      <div>Overview</div>
-      <div className="flex flex-col">
-        {itemList.map((item) => (
-          <div key={item.name}>{children({ item })}</div>
+    <div className="w-full h-full flex flex-row">
+      {/* OVERVIEW COMPONENT */}
+      <div className="flex-1 w-full flex flex-col border-r">
+        {itemList.map((item, index) => (
+          <>
+            {index > 0 && <hr />}
+            <div key={item.name}>{children({ item })}</div>
+          </>
         ))}
+      </div>
+
+      {/* DETAIL VIEW COMPONENT */}
+      <div
+        className="flex-1 w-full h-full"
+        key={itemList.at(selectedIndex)?.name}
+      >
+        {children({ item: itemList.at(selectedIndex) ?? null })}
       </div>
     </div>
   );
