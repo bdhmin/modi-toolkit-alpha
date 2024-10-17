@@ -15,6 +15,11 @@ interface MalleableODIProps {
 export function MalleableODI({ itemList, children }: MalleableODIProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  // - Things to do:
+  // [ ] Add selectable attribute — adding a selecable attribute to a component, this component is clickable to select this item in the detail.
+  //     - By default, the entire overview item component should be selectable.
+  //     - Also provide like an "hovering" listener or somerthing...
+
   return (
     <div className="w-full h-full flex flex-row">
       {/* OVERVIEW COMPONENT */}
