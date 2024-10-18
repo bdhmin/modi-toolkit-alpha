@@ -1,15 +1,17 @@
 import MalleableODI from "malleable-odi-toolkit-0.0/src/components/MalleableODI";
+import MalleableOverview from "malleable-odi-toolkit-0.0/src/components/MalleableOverview";
+// import MalleableDetail from "malleable-odi-toolkit-0.0/src/components/MalleableDetail";
 import { Member, members } from "./members";
 import React from "react";
 
 function App() {
   return (
-    <div className="flex w-full">
-      <MalleableODI itemList={members}>
+    <div className="w-full">
+      <MalleableOverview id="first" itemList={members}>
         {({ item }: { item: Member }) => (
           <div className="w-full flex flex-col gap-2 p-2">
             <div className="flex flex-row w-full gap-1">
-              <div className="min-w-[130px] h-[160px] overflow-hidden">
+              <div className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden">
                 <img
                   className="w-full h-full object-cover"
                   alt={`profile-${item.name}`}
@@ -29,13 +31,13 @@ function App() {
               {item.longBio.split("\n").map((line, index) => (
                 <React.Fragment key={index}>
                   {line}
-                  <br />
+                  <div className="my-4" />
                 </React.Fragment>
               ))}
             </p>
           </div>
         )}
-      </MalleableODI>
+      </MalleableOverview>
     </div>
 
     // Key development process: I feel like it's more intuitive

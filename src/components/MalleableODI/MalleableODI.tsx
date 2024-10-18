@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import '../../styles/globals.css';
 
-interface MalleableODIProps {
+export interface MalleableODIProps {
   // - the list of items
+  id: string;
   itemList: any[];
   children: (props: { item: any }) => React.ReactElement;
 }
@@ -21,20 +22,22 @@ export function MalleableODI({ itemList, children }: MalleableODIProps) {
   //     - Also provide like an "hovering" listener or somerthing...
 
   return (
-    <div className="w-full h-full flex flex-row">
+    <div className="w-fit flex flex-row">
       {/* OVERVIEW COMPONENT */}
-      <div className="flex-1 w-full flex flex-col border-r">
-        {itemList.map((item, index) => (
-          <>
-            {index > 0 && <hr />}
-            <div key={item.name}>{children({ item })}</div>
-          </>
-        ))}
+      <div className="flex-1 w-full h-[400px] flex flex-col border-r overflow-hidden">
+        <div className="overflow-scroll">
+          {itemList.map((item, index) => (
+            <>
+              {index > 0 && <hr />}
+              <div key={item.name}>{children({ item })}</div>
+            </>
+          ))}
+        </div>
       </div>
 
       {/* DETAIL VIEW COMPONENT */}
       <div
-        className="flex-1 w-full h-full"
+        className="flex-1 w-full h-fit"
         key={itemList.at(selectedIndex)?.name}
       >
         {children({ item: itemList.at(selectedIndex) ?? null })}
