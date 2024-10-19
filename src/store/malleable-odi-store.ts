@@ -16,11 +16,13 @@ export interface MalleableODIsCollection {
   setMalleableODI: (id: string, malleableODI: Partial<MalleableODIComponentState>) => void;
 
   selectItem: (id: string, itemIndex: number) => void;
+  getSelectedIndex: (id: string) => number | null; // The index that is being selected. If nothing is selected, return null
+
   // setItemList: (items: any[]) => void;
   // setSelectedIndex: (index: number) => void;
 }
 
-export const useMalleableODIStore = create<MalleableODIsCollection>((set) => ({
+export const useMalleableODIStore = create<MalleableODIsCollection>((set, get) => ({
   malleableODIMap: {},
   setMalleableODIMap: (map) => set({ malleableODIMap: map }),
   setMalleableODI: (id, malleableODI) => set((state) => {
@@ -35,7 +37,10 @@ export const useMalleableODIStore = create<MalleableODIsCollection>((set) => ({
       ...(state.malleableODIMap[id]??{}),
       selectedIndex: itemIndex,
     };
-    console.log('test?', state.malleableODIMap[id])
     return state.malleableODIMap;
   }),
+  getSelectedIndex: (id) => {
+    const malleableODIState = get().malleableODIMap[id];
+    return malleableODIState && malleableODIState.selectedIndex >= 0 ? malleableODIState.selectedIndex : null;
+  }
 }))
