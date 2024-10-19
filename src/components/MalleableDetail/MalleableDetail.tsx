@@ -22,25 +22,37 @@ export const MalleableDetail = ({
     }
   }, [id, malleableODIState, setMalleableODI, itemList, children]);
 
-  if (malleableODIState) {
+  if (malleableODIState && malleableODIState.selectedIndex >= 0) {
     if (malleableODIState.detailUI) {
       return (
         <div
           className="flex-1 w-full h-fit"
           key={itemList.at(malleableODIState.selectedIndex)?.name}
         >
-          {children &&
-            children({
+          {malleableODIState.detailUI &&
+            malleableODIState.detailUI({
               item: itemList.at(malleableODIState.selectedIndex) ?? null,
               index: 0, // TODO: need to also input the index of this???,
               isSelected: false,
             })}
         </div>
       );
-    } else {
-      return <>??</>;
+    } else if (malleableODIState.overviewUI) {
+      return (
+        <div
+          className="flex-1 w-full h-fit"
+          key={itemList.at(malleableODIState.selectedIndex)?.name}
+        >
+          {malleableODIState.overviewUI &&
+            malleableODIState.overviewUI({
+              item: itemList.at(malleableODIState.selectedIndex) ?? null,
+              index: 0, // TODO: need to also input the index of this???,
+              isSelected: false,
+            })}
+        </div>
+      );
     }
   } else {
-    return <>Detail View</>;
+    return <div>No item selected</div>;
   }
 };

@@ -14,7 +14,7 @@ function App() {
     <div className="w-full flex flex-col items-center">
       <div className="max-w-[960px]">
         <MalleableDetail id="first" itemList={members}>
-          {({}: ODIItemProps) => <div>fdsa</div>}
+          {/* {({}: ODIItemProps) => <div>fdsa</div>} */}
         </MalleableDetail>
         <MalleableOverview id="first" itemList={members}>
           {({ item, index, isSelected }: ODIItemProps) => (
