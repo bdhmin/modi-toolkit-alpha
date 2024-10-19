@@ -2,7 +2,8 @@ import { create } from "zustand";
 
 export interface MalleableODIComponentState {
   itemList: any[];
-  children: (props: { item: any }) => React.ReactElement;
+  overviewUI: (props: { item: any }) => React.ReactElement;
+  detailUI: (props: { item: any }) => React.ReactElement;
   selectedIndex: number;
 }
 
@@ -25,6 +26,6 @@ export const useMalleableODIStore = create<MalleableODIsCollection>((set) => ({
       ...(state.malleableODIMap[id]??{}),
       ...malleableODI
     };
-    return state;
+    return state.malleableODIMap;
   }),
 }))

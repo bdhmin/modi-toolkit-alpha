@@ -7,18 +7,26 @@ export const MalleableDetail = ({
   itemList,
   children,
 }: MalleableODIProps) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
   const { malleableODIMap, setMalleableODI } = useMalleableODIStore();
+
+  setMalleableODI(id, {
+    itemList,
+    overviewUI: children,
+    selectedIndex: 0,
+  });
+
   const malleableODIState = malleableODIMap[id];
+  console.log(malleableODIState);
 
   if (malleableODIState) {
     return (
       <div
         className="flex-1 w-full h-fit"
-        key={itemList.at(selectedIndex)?.name}
+        key={itemList.at(malleableODIState.selectedIndex)?.name}
       >
-        {children({ item: itemList.at(selectedIndex) ?? null })}
+        {children({
+          item: itemList.at(malleableODIState.selectedIndex) ?? null,
+        })}
       </div>
     );
   } else {

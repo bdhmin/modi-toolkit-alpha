@@ -2,7 +2,7 @@ import MalleableODI from "malleable-odi-toolkit-0.0/src/components/MalleableODI"
 import MalleableOverview from "malleable-odi-toolkit-0.0/src/components/MalleableOverview";
 // import MalleableDetail from "malleable-odi-toolkit-0.0/src/components/MalleableDetail";
 import { Member, members } from "./members";
-import React from "react";
+import React, { useState } from "react";
 
 function App() {
   return (
@@ -27,14 +27,14 @@ function App() {
                 <p className="flex justify-end text-sm">links</p>
               </div>
             </div>
-            <p className="my-2">
+            <div className="my-2">
               {item.longBio.split("\n").map((line, index) => (
                 <React.Fragment key={index}>
                   {line}
                   <div className="my-4" />
                 </React.Fragment>
               ))}
-            </p>
+            </div>
           </div>
         )}
       </MalleableOverview>

@@ -1,3 +1,3 @@
-import { MalleableOverview } from "./MalleableOverivew";
+import { MalleableOverview } from "./MalleableOverview";
 
 export default MalleableOverview;
