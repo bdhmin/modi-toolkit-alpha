@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MalleableODIProps } from '../MalleableODI/MalleableODI';
-import useMalleableODIStore from '../../store';
+import { useMalleableODIStore } from '../../store/malleable-odi-store';
 
 export const MalleableDetail = ({
   id,
@@ -16,27 +16,31 @@ export const MalleableDetail = ({
     if (!malleableODIState) {
       setMalleableODI(id, {
         itemList,
-        overviewUI: children,
+        detailUI: children,
         selectedIndex: -1,
       });
     }
   }, [id, malleableODIState, setMalleableODI, itemList, children]);
 
   if (malleableODIState) {
-    return (
-      <div
-        className="flex-1 w-full h-fit"
-        key={itemList.at(malleableODIState.selectedIndex)?.name}
-      >
-        {children &&
-          children({
-            item: itemList.at(malleableODIState.selectedIndex) ?? null,
-            index: 0, // TODO: need to also input the index of this???,
-            isSelected: false,
-          })}
-      </div>
-    );
+    if (malleableODIState.detailUI) {
+      return (
+        <div
+          className="flex-1 w-full h-fit"
+          key={itemList.at(malleableODIState.selectedIndex)?.name}
+        >
+          {children &&
+            children({
+              item: itemList.at(malleableODIState.selectedIndex) ?? null,
+              index: 0, // TODO: need to also input the index of this???,
+              isSelected: false,
+            })}
+        </div>
+      );
+    } else {
+      return <>??</>;
+    }
   } else {
-    return <></>;
+    return <>Detail View</>;
   }
 };

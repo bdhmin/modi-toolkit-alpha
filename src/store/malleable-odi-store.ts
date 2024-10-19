@@ -3,8 +3,8 @@ import { ODIItemProps } from "../components/MalleableODI/MalleableODI";
 
 export interface MalleableODIComponentState {
   itemList: any[];
-  overviewUI: (props: ODIItemProps) => React.ReactElement;
-  detailUI: (props: ODIItemProps) => React.ReactElement;
+  overviewUI?: (props: ODIItemProps) => React.ReactElement;
+  detailUI?: (props: ODIItemProps) => React.ReactElement;
   selectedIndex: number;
 }
 
