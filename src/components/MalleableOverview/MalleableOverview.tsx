@@ -26,7 +26,6 @@ export const MalleableOverview = ({
   if (malleableODIState) {
     return (
       <div className="flex-1 w-full h-[400px] flex flex-col overflow-hidden">
-        {malleableODIState.selectedIndex}
         <div className="overflow-scroll">
           {itemList.map((item, index) => (
             <div

@@ -10,48 +10,54 @@ import { ODIItemProps } from "../../src/components/MalleableODI/MalleableODI";
 function App() {
   const { selectItem, getSelectedIndex } = useMalleableODIStore();
 
+  const OverviewContentOnly = ({ item, index, isSelected }: ODIItemProps) => {
+    return (
+      <div className="flex flex-row w-full gap-1">
+        <div
+          className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden cursor-pointer"
+          onClick={() => selectItem("first", index)}
+        >
+          <img
+            className="w-full h-full object-cover"
+            alt={`profile-${item.name}`}
+            src={item.profilePic}
+          />
+        </div>
+        <div className="w-full flex flex-col justify-between p-2">
+          <p className="flex justify-end text-sm">{item.title}</p>
+          <div className="flex flex-col">
+            <h2
+              className="font-bold my-0.5 cursor-pointer"
+              onClick={() => selectItem("first", index)}
+            >
+              {item.name}
+            </h2>
+            <p className="text-zinc-400">{item.shortBio}</p>
+          </div>
+          <p className="flex justify-end text-sm">links</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="">
       <div className="w-full flex flex-col items-center">
-        <div className="max-w-[960px]">
+        <div className="max-w-[960px] w-full">
           <MalleableOverview id="first" itemList={members}>
             {({ item, index, isSelected }: ODIItemProps) => (
               <div
                 className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
               >
-                <div className="flex flex-row w-full gap-1">
-                  <div
-                    className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden cursor-pointer"
-                    onClick={() => selectItem("first", index)}
-                  >
-                    <img
-                      className="w-full h-full object-cover"
-                      alt={`profile-${item.name}`}
-                      src={item.profilePic}
-                    />
-                  </div>
-                  <div className="w-full flex flex-col justify-between p-2">
-                    <p className="flex justify-end text-sm">{item.title}</p>
-                    <div className="flex flex-col">
-                      <h2
-                        className="font-bold my-0.5 cursor-pointer"
-                        onClick={() => selectItem("first", index)}
-                      >
-                        {item.name}
-                      </h2>
-                      <p className="text-zinc-400">{item.shortBio}</p>
-                    </div>
-                    <p className="flex justify-end text-sm">links</p>
-                  </div>
-                </div>
-                <div className="my-2">
+                <OverviewContentOnly {...{ item, index, isSelected }} />
+                {/* <div className="my-2">
                   {item.longBio.split("\n").map((line: any, index: number) => (
                     <React.Fragment key={index}>
                       {line}
                       <div className="my-4" />
                     </React.Fragment>
                   ))}
-                </div>
+                </div> */}
               </div>
             )}
           </MalleableOverview>
@@ -77,7 +83,27 @@ function App() {
             </button>
 
             {/* Detail Content */}
-            <MalleableDetail id="first" itemList={members} />
+            {/* <MalleableDetail id="first" itemList={members} /> */}
+            <MalleableDetail id="first" itemList={members}>
+              {({ item, index, isSelected }: ODIItemProps) => (
+                <div
+                  className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
+                >
+                  <OverviewContentOnly {...{ item, index, isSelected }} />
+
+                  <div className="my-2">
+                    {item.longBio
+                      .split("\n")
+                      .map((line: any, index: number) => (
+                        <React.Fragment key={index}>
+                          {line}
+                          <div className="my-4" />
+                        </React.Fragment>
+                      ))}
+                  </div>
+                </div>
+              )}
+            </MalleableDetail>
           </div>
         </div>
       )}
