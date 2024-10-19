@@ -1,9 +1,10 @@
 import { create } from "zustand";
+import { ODIItemProps } from "../components/MalleableODI/MalleableODI";
 
 export interface MalleableODIComponentState {
   itemList: any[];
-  overviewUI: (props: { item: any }) => React.ReactElement;
-  detailUI: (props: { item: any }) => React.ReactElement;
+  overviewUI: (props: ODIItemProps) => React.ReactElement;
+  detailUI: (props: ODIItemProps) => React.ReactElement;
   selectedIndex: number;
 }
 
@@ -14,6 +15,7 @@ export interface MalleableODIsCollection {
   setMalleableODIMap: (map: MalleableODIMap) => void;
   setMalleableODI: (id: string, malleableODI: Partial<MalleableODIComponentState>) => void;
 
+  selectItem: (id: string, itemIndex: number) => void;
   // setItemList: (items: any[]) => void;
   // setSelectedIndex: (index: number) => void;
 }
@@ -26,6 +28,14 @@ export const useMalleableODIStore = create<MalleableODIsCollection>((set) => ({
       ...(state.malleableODIMap[id]??{}),
       ...malleableODI
     };
+    return state.malleableODIMap;
+  }),
+  selectItem: (id, itemIndex) => set((state) => {
+    state.malleableODIMap[id] = {
+      ...(state.malleableODIMap[id]??{}),
+      selectedIndex: itemIndex,
+    };
+    console.log('test?', state.malleableODIMap[id])
     return state.malleableODIMap;
   }),
 }))

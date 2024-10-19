@@ -3,15 +3,24 @@ import MalleableOverview from "malleable-odi-toolkit-0.0/src/components/Malleabl
 // import MalleableDetail from "malleable-odi-toolkit-0.0/src/components/MalleableDetail";
 import { Member, members } from "./members";
 import React, { useState } from "react";
+import { useMalleableODIStore } from "../../src/store/malleable-odi-store";
+import { ODIItemProps } from "../../src/components/MalleableODI/MalleableODI";
 
 function App() {
+  const { selectItem } = useMalleableODIStore();
+
   return (
     <div className="w-full">
       <MalleableOverview id="first" itemList={members}>
-        {({ item }: { item: Member }) => (
-          <div className="w-full flex flex-col gap-2 p-2">
+        {({ item, index, isSelected }: ODIItemProps) => (
+          <div
+            className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
+          >
             <div className="flex flex-row w-full gap-1">
-              <div className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden">
+              <div
+                className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden cursor-pointer"
+                onClick={() => selectItem("first", index)}
+              >
                 <img
                   className="w-full h-full object-cover"
                   alt={`profile-${item.name}`}
@@ -21,14 +30,19 @@ function App() {
               <div className="w-full flex flex-col justify-between p-2">
                 <p className="flex justify-end text-sm">{item.title}</p>
                 <div className="flex flex-col">
-                  <h2 className="font-bold my-0.5">{item.name}</h2>
+                  <h2
+                    className="font-bold my-0.5 cursor-pointer"
+                    onClick={() => selectItem("first", index)}
+                  >
+                    {item.name}
+                  </h2>
                   <p className="text-zinc-400">{item.shortBio}</p>
                 </div>
                 <p className="flex justify-end text-sm">links</p>
               </div>
             </div>
             <div className="my-2">
-              {item.longBio.split("\n").map((line, index) => (
+              {item.longBio.split("\n").map((line: any, index: number) => (
                 <React.Fragment key={index}>
                   {line}
                   <div className="my-4" />

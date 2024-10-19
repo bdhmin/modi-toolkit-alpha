@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MalleableODIProps } from '../MalleableODI/MalleableODI';
 import useMalleableODIStore from '../../store';
 
@@ -9,14 +9,18 @@ export const MalleableDetail = ({
 }: MalleableODIProps) => {
   const { malleableODIMap, setMalleableODI } = useMalleableODIStore();
 
-  setMalleableODI(id, {
-    itemList,
-    overviewUI: children,
-    selectedIndex: 0,
-  });
-
   const malleableODIState = malleableODIMap[id];
-  console.log(malleableODIState);
+
+  // Initialize the state only if it doesn't exist
+  useEffect(() => {
+    if (!malleableODIState) {
+      setMalleableODI(id, {
+        itemList,
+        overviewUI: children,
+        selectedIndex: -1,
+      });
+    }
+  }, [id, malleableODIState, setMalleableODI, itemList, children]);
 
   if (malleableODIState) {
     return (
@@ -24,9 +28,12 @@ export const MalleableDetail = ({
         className="flex-1 w-full h-fit"
         key={itemList.at(malleableODIState.selectedIndex)?.name}
       >
-        {children({
-          item: itemList.at(malleableODIState.selectedIndex) ?? null,
-        })}
+        {children &&
+          children({
+            item: itemList.at(malleableODIState.selectedIndex) ?? null,
+            index: 0, // TODO: need to also input the index of this???,
+            isSelected: false,
+          })}
       </div>
     );
   } else {

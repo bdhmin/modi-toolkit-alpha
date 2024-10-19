@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { cloneElement, isValidElement, ReactElement, useEffect } from 'react';
 import { useMalleableODIStore } from '../../store/malleable-odi-store';
 import { MalleableODIProps } from '../MalleableODI/MalleableODI';
-import { create } from 'zustand';
+import React from 'react';
 
 export const MalleableOverview = ({
   id,
@@ -18,7 +18,7 @@ export const MalleableOverview = ({
       setMalleableODI(id, {
         itemList,
         overviewUI: children,
-        selectedIndex: 0,
+        selectedIndex: -1,
       });
     }
   }, [id, malleableODIState, setMalleableODI, itemList, children]);
@@ -30,13 +30,19 @@ export const MalleableOverview = ({
         <div className="overflow-scroll">
           {itemList.map((item, index) => (
             <div
-              onClick={() => {
-                console.log(index);
-                setMalleableODI(id, { selectedIndex: index });
-              }}
+            // onClick={() => {
+            //   setMalleableODI(id, { selectedIndex: index });
+            // }}
             >
               {index > 0 && <hr />}
-              <div key={item.name}>{children({ item })}</div>
+              <div key={item.name}>
+                {children &&
+                  children({
+                    item,
+                    index,
+                    isSelected: malleableODIState.selectedIndex === index,
+                  })}
+              </div>
             </div>
           ))}
         </div>
