@@ -50,14 +50,14 @@ function App() {
                 className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
               >
                 <OverviewContentOnly {...{ item, index, isSelected }} />
-                {/* <div className="my-2">
+                <div data-odi-hide="longBio" className="my-2">
                   {item.longBio.split("\n").map((line: any, index: number) => (
                     <React.Fragment key={index}>
                       {line}
                       <div className="my-4" />
                     </React.Fragment>
                   ))}
-                </div> */}
+                </div>
               </div>
             )}
           </MalleableOverview>

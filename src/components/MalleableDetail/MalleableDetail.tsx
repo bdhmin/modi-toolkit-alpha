@@ -23,14 +23,14 @@ export const MalleableDetail = ({
   }, [id, malleableODIState, setMalleableODI, itemList, children]);
 
   if (malleableODIState && malleableODIState.selectedIndex >= 0) {
-    if (malleableODIState.detailUI) {
+    if (children) {
       return (
         <div
           className="flex-1 w-full h-fit"
           key={itemList.at(malleableODIState.selectedIndex)?.name}
         >
-          {malleableODIState.detailUI &&
-            malleableODIState.detailUI({
+          {children &&
+            children({
               item: itemList.at(malleableODIState.selectedIndex) ?? null,
               index: 0, // TODO: need to also input the index of this???,
               isSelected: false,

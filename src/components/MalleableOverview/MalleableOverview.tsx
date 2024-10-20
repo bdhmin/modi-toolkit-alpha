@@ -1,15 +1,23 @@
-import { cloneElement, isValidElement, ReactElement, useEffect } from 'react';
+import {
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  useEffect,
+  useRef,
+} from 'react';
 import { useMalleableODIStore } from '../../store/malleable-odi-store';
 import { MalleableODIProps } from '../MalleableODI/MalleableODI';
 import React from 'react';
+import '../../styles/odi-attributes.css';
 
 export const MalleableOverview = ({
   id,
   itemList,
   children,
 }: MalleableODIProps) => {
-  const { malleableODIMap, setMalleableODI } = useMalleableODIStore();
+  const overviewRef = useRef<HTMLDivElement | null>(null);
 
+  const { malleableODIMap, setMalleableODI } = useMalleableODIStore();
   const malleableODIState = malleableODIMap[id];
 
   // Initialize the state only if it doesn't exist
@@ -23,16 +31,20 @@ export const MalleableOverview = ({
     }
   }, [id, malleableODIState, setMalleableODI, itemList, children]);
 
+  // // Upon loading, hide all attributes that are tagged by default to be hidden
+  // useEffect(() => {
+
+  // }, [malleableODIState]);
+
   if (malleableODIState) {
     return (
-      <div className="flex-1 w-full h-[400px] flex flex-col overflow-hidden">
+      <div
+        ref={overviewRef}
+        className="flex-1 w-full h-[400px] flex flex-col overflow-hidden"
+      >
         <div className="overflow-scroll">
           {itemList.map((item, index) => (
-            <div
-            // onClick={() => {
-            //   setMalleableODI(id, { selectedIndex: index });
-            // }}
-            >
+            <div>
               {index > 0 && <hr />}
               <div key={item.name}>
                 {children &&
