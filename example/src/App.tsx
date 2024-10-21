@@ -6,51 +6,69 @@ import { Member, members } from "./members";
 import React, { useState } from "react";
 import { useMalleableODIStore } from "../../src/store/malleable-odi-store";
 import { ODIItemProps } from "../../src/components/MalleableODI/MalleableODI";
+import edit from "./assets/edit.svg";
 
 function App() {
-  const { selectItem, getSelectedIndex } = useMalleableODIStore();
+  const { selectItem, getSelectedIndex, isCustomizing, setIsCustomizing } =
+    useMalleableODIStore();
 
-  const OverviewContentOnly = ({ item, index, isSelected }: ODIItemProps) => {
+  const CustomizeButton = () => {
     return (
-      <div className="flex flex-row w-full gap-1">
-        <div
-          className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden cursor-pointer"
-          onClick={() => selectItem("first", index)}
-        >
-          <img
-            className="w-full h-full object-cover"
-            alt={`profile-${item.name}`}
-            src={item.profilePic}
-          />
-        </div>
-        <div className="w-full flex flex-col justify-between p-2">
-          <p className="flex justify-end text-sm">{item.title}</p>
-          <div className="flex flex-col">
-            <h2
-              className="font-bold my-0.5 cursor-pointer"
-              onClick={() => selectItem("first", index)}
-            >
-              {item.name}
-            </h2>
-            <p className="text-zinc-400">{item.shortBio}</p>
-          </div>
-          <p className="flex justify-end text-sm">links</p>
-        </div>
-      </div>
+      <button
+        className="flex items-center gap-2 text-sm px-2 py-1 bg-zinc-100 hover:bg-zinc-300 rounded-sm"
+        onClick={() => setIsCustomizing()}
+      >
+        {isCustomizing ? (
+          <>Done Customizing</>
+        ) : (
+          <>
+            Customize <img src={edit} alt="edit" />
+          </>
+        )}
+      </button>
     );
   };
 
   return (
     <div className="">
       <div className="w-full flex flex-col items-center">
-        <div className="max-w-[960px] w-full">
+        <div className="max-w-[960px] w-full my-4">
+          <div className="flex justify-end my-2 mb-6">
+            <CustomizeButton />
+          </div>
+          <hr />
           <MalleableOverview id="first" itemList={members}>
             {({ item, index, isSelected }: ODIItemProps) => (
               <div
                 className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
               >
-                <OverviewContentOnly {...{ item, index, isSelected }} />
-                <div data-odi-hide="longBio" className="my-2">
+                <div className="flex flex-row w-full gap-1">
+                  <div
+                    // data-odi-hide="profile-pic"
+                    className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden cursor-pointer"
+                    onClick={() => selectItem("first", index)}
+                  >
+                    <img
+                      className="w-full h-full object-cover"
+                      alt={`profile-${item.name}`}
+                      src={item.profilePic}
+                    />
+                  </div>
+                  <div className="w-full flex flex-col justify-between p-2">
+                    <p className="flex justify-end text-sm">{item.title}</p>
+                    <div className="flex flex-col">
+                      <h2
+                        className="w-fit font-bold my-0.5 cursor-pointer"
+                        onClick={() => selectItem("first", index)}
+                      >
+                        {item.name}
+                      </h2>
+                      <p className="text-zinc-400">{item.shortBio}</p>
+                    </div>
+                    <p className="flex justify-end text-sm">email</p>
+                  </div>
+                </div>
+                <div data-odi-hide="long-bio" className="my-2">
                   {item.longBio.split("\n").map((line: any, index: number) => (
                     <React.Fragment key={index}>
                       {line}
@@ -63,7 +81,6 @@ function App() {
           </MalleableOverview>
         </div>
       </div>
-
       {getSelectedIndex("first") !== null && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
           {/* Overlay */}
@@ -73,14 +90,16 @@ function App() {
           />
 
           {/* Modal content */}
-          <div className="relative w-[80%] max-w-[960px] bg-white p-6 shadow-lg rounded-lg z-10">
-            {/* Modal Close Button */}
-            <button
-              className="absolute top-4 right-4 text-black text-xl font-bold"
-              onClick={() => selectItem("first", -1)} // Close modal
-            >
-              &times;
-            </button>
+          <div className="w-[80%] max-w-[960px] bg-white p-6 shadow-lg rounded-lg z-10">
+            <div className="flex justify-end gap-2">
+              <CustomizeButton />
+              <button
+                className="text-black text-xl font-bold"
+                onClick={() => selectItem("first", -1)} // Close modal
+              >
+                &times;
+              </button>
+            </div>
 
             {/* Detail Content */}
             {/* <MalleableDetail id="first" itemList={members} /> */}
