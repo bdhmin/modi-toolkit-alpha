@@ -85,7 +85,7 @@ function App() {
             {/* Detail Content */}
             {/* <MalleableDetail id="first" itemList={members} /> */}
             <MalleableDetail id="first" itemList={members}>
-              {({ item, index, isSelected }: ODIItemProps) => (
+              {/* {({ item, index, isSelected }: ODIItemProps) => (
                 <div
                   className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
                 >
@@ -102,7 +102,7 @@ function App() {
                       ))}
                   </div>
                 </div>
-              )}
+              )} */}
             </MalleableDetail>
           </div>
         </div>

@@ -40,7 +40,7 @@ export const MalleableOverview = ({
     return (
       <div
         ref={overviewRef}
-        className="flex-1 w-full h-[400px] flex flex-col overflow-hidden"
+        className="odi-overview flex-1 w-full h-[400px] flex flex-col overflow-hidden"
       >
         <div className="overflow-scroll">
           {itemList.map((item, index) => (

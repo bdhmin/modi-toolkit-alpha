@@ -26,13 +26,13 @@ export const MalleableDetail = ({
     if (children) {
       return (
         <div
-          className="flex-1 w-full h-fit"
+          className="odi-detail flex-1 w-full h-fit"
           key={itemList.at(malleableODIState.selectedIndex)?.name}
         >
           {children &&
             children({
               item: itemList.at(malleableODIState.selectedIndex) ?? null,
-              index: 0, // TODO: need to also input the index of this???,
+              index: malleableODIState.selectedIndex, // TODO: need to also input the index of this???,
               isSelected: false,
             })}
         </div>
@@ -40,13 +40,13 @@ export const MalleableDetail = ({
     } else if (malleableODIState.overviewUI) {
       return (
         <div
-          className="flex-1 w-full h-fit"
+          className="odi-detail flex-1 w-full h-fit"
           key={itemList.at(malleableODIState.selectedIndex)?.name}
         >
           {malleableODIState.overviewUI &&
             malleableODIState.overviewUI({
               item: itemList.at(malleableODIState.selectedIndex) ?? null,
-              index: 0, // TODO: need to also input the index of this???,
+              index: malleableODIState.selectedIndex, // TODO: need to also input the index of this???,
               isSelected: false,
             })}
         </div>
