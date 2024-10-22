@@ -6,9 +6,15 @@ export interface MalleableODIComponentState {
   overviewUI?: (props: ODIItemProps) => React.ReactElement;
   detailUI?: (props: ODIItemProps) => React.ReactElement;
   selectedIndex: number;
+  attributes: { [attributeId: string]: Attribute };
 }
 
 export type MalleableODIMap = {[id: string]: MalleableODIComponentState};
+
+export interface Attribute {
+  id: string;
+  shown: boolean; // Whether this attribute is shown in the overview
+}
 
 export interface MalleableODIsCollection {
   malleableODIMap: MalleableODIMap,
@@ -22,11 +28,25 @@ export interface MalleableODIsCollection {
   isCustomizing: boolean;
   setIsCustomizing: (isCustomizing?: boolean) => void;
 
+  selectedAttributeIds: string[];
+  setSelectedAttributeIds: (attributeIds: string[]) => void;
+  toggleSelectedAttributeIds: (...attributeIds: string[]) => void;
+  addSelectedAttributeIds: (...attributeIds: string[]) => void;
+  removeSelectedAttributeIds: (...attributeIds: string[]) => void;
+  clearSelectedAttributeIds: () => void;
+
+  // TODO: create funciton that initializes all attributes — also make a way to initialized show or not shown in overview!
+  // initializeAttributes: (attributeIds: string[]) => void;
+
+
+  addShownAttributeIds: (id: string, attributeIds: string[]) => void;
+  // removeShownAttributeIds: (...attributeIds: string[]) => void;
+
   // setItemList: (items: any[]) => void;
   // setSelectedIndex: (index: number) => void;
 }
 
-export const useMalleableODIStore = create<MalleableODIsCollection>((set, get) => ({
+export const useMalleableODI = create<MalleableODIsCollection>((set, get) => ({
   malleableODIMap: {},
   setMalleableODIMap: (map) => set({ malleableODIMap: map }),
   setMalleableODI: (id, malleableODI) => set((state) => {
@@ -50,5 +70,42 @@ export const useMalleableODIStore = create<MalleableODIsCollection>((set, get) =
 
   // ---- CUSTOMIZING ODI ----
   isCustomizing: false,
-  setIsCustomizing: (isCustomizing?: boolean) => set((state) => ({isCustomizing: isCustomizing !== undefined ? isCustomizing : !state.isCustomizing}))
+  setIsCustomizing: (isCustomizing?) => set((state) => ({isCustomizing: isCustomizing !== undefined ? isCustomizing : !state.isCustomizing})),
+
+  selectedAttributeIds: [],
+  setSelectedAttributeIds: (attributeIds) => set({selectedAttributeIds: attributeIds}),
+  toggleSelectedAttributeIds: (...attributeIds) => set((state) => ({
+    selectedAttributeIds: state.selectedAttributeIds.some(id => attributeIds.includes(id))
+      ? state.selectedAttributeIds.filter(id => !attributeIds.includes(id)) // Remove if exists
+      : [...state.selectedAttributeIds, ...attributeIds] // Add if doesn't exist
+  })),
+  addSelectedAttributeIds: (...attributeIds) => set((state) => ({
+    selectedAttributeIds: [...state.selectedAttributeIds, ...attributeIds],
+  })),
+  removeSelectedAttributeIds: (...attributeIds) => set((state) => ({
+    selectedAttributeIds: state.selectedAttributeIds.filter(attributeId => !attributeIds.includes(attributeId))
+  })),
+  clearSelectedAttributeIds: () => set({ selectedAttributeIds: [] }),
+
+  // TODO: Add two functions to add and remove attributes in the customized list.
+  // TODO: Update attributes to data-odi-hide or data-odi-show
+  addShownAttributeIds: (id, attributeIds) => set((state) => {
+    const malleableODI = state.malleableODIMap[id];
+    if (malleableODI) {
+      attributeIds.forEach(attributeId => {
+        if (malleableODI.attributes[attributeId]) {
+          malleableODI.attributes[attributeId].shown = true;
+        } else {
+          malleableODI.attributes[attributeId] = {
+            id: attributeId,
+            shown: true,
+          }
+        }
+      })
+    }
+    state.malleableODIMap[id] = malleableODI;
+    return state.malleableODIMap;
+  })
+
+
 }))

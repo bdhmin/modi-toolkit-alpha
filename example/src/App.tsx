@@ -4,13 +4,15 @@ import MalleableDetail from "malleable-odi-toolkit-0.0/src/components/MalleableD
 
 import { Member, members } from "./members";
 import React, { useState } from "react";
-import { useMalleableODIStore } from "../../src/store/malleable-odi-store";
+import { useMalleableODI } from "../../src/store/malleable-odi-store";
 import { ODIItemProps } from "../../src/components/MalleableODI/MalleableODI";
 import edit from "./assets/edit.svg";
 
 function App() {
   const { selectItem, getSelectedIndex, isCustomizing, setIsCustomizing } =
-    useMalleableODIStore();
+    useMalleableODI();
+
+  const hiddenAttributes = ["long-bio"];
 
   const CustomizeButton = () => {
     return (
@@ -19,7 +21,7 @@ function App() {
         onClick={() => setIsCustomizing()}
       >
         {isCustomizing ? (
-          <>Done Customizing</>
+          <b>Done Customizing</b>
         ) : (
           <>
             Customize <img src={edit} alt="edit" />
@@ -44,7 +46,7 @@ function App() {
               >
                 <div className="flex flex-row w-full gap-1">
                   <div
-                    // data-odi-hide="profile-pic"
+                    data-odi="profile-pic"
                     className="min-w-[130px] max-w-[130px] h-[160px] overflow-hidden cursor-pointer"
                     onClick={() => selectItem("first", index)}
                   >
@@ -56,6 +58,11 @@ function App() {
                   </div>
                   <div className="w-full flex flex-col justify-between p-2">
                     <p className="flex justify-end text-sm">{item.title}</p>
+                    {/* path+stringify(children) */}
+                    {/* {odi.p('p', <></>, )} */}
+                    {/* <ODI.p data-odi-hide='{item.title}' className='flex justify-end'>
+                      {item.title}
+                    </ODI.p> */}
                     <div className="flex flex-col">
                       <h2
                         className="w-fit font-bold my-0.5 cursor-pointer"
@@ -68,7 +75,12 @@ function App() {
                     <p className="flex justify-end text-sm">email</p>
                   </div>
                 </div>
-                <div data-odi-hide="long-bio" className="my-2">
+                <div
+                  data-odi="long-bio"
+                  // data-odi-hide="long-bio"
+                  // key='long-bio'
+                  className="my-2"
+                >
                   {item.longBio.split("\n").map((line: any, index: number) => (
                     <React.Fragment key={index}>
                       {line}

@@ -5,7 +5,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { useMalleableODIStore } from '../../store/malleable-odi-store';
+import { useMalleableODI } from '../../store/malleable-odi-store';
 import { MalleableODIProps } from '../MalleableODI/MalleableODI';
 import React from 'react';
 import '../../styles/odi-attributes.css';
@@ -17,7 +17,7 @@ export const MalleableOverview = ({
 }: MalleableODIProps) => {
   const overviewRef = useRef<HTMLDivElement | null>(null);
 
-  const { malleableODIMap, setMalleableODI } = useMalleableODIStore();
+  const { malleableODIMap, setMalleableODI } = useMalleableODI();
   const malleableODIState = malleableODIMap[id];
 
   // Initialize the state only if it doesn't exist

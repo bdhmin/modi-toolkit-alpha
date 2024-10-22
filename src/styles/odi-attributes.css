@@ -1,3 +1,32 @@
-.odi-overview [data-odi-hide] {
+.odi-overview [data-odi] {
   display: none;
 }
+
+.odi-detail.odi-customizing [data-odi] {
+  background: #00000023;
+  opacity: 0.3;
+  outline: 2px solid black; 
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.odi-detail.odi-customizing [data-odi]:hover {
+  background: #00000044;
+  opacity: 0.5;
+}
+
+.odi-detail.odi-customizing [data-odi-selecting='true'] {
+  outline: 2px solid #535353;
+  background: #53535355;
+  opacity: 1;
+}
+
+.odi-detail.odi-customizing [data-odi-selecting='true']:hover {
+  background: #53535355;
+  opacity: 0.8;
+}
+/* 
+.odi-detail.odi-customizing [data-odi-hide] {
+  outline: 2px solid black;
+} */
