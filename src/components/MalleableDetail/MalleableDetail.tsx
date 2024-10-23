@@ -16,6 +16,7 @@ export const MalleableDetail = ({
     selectedAttributeIds,
     addSelectedAttributeIds,
     removeSelectedAttributeIds,
+    addShownAttributeIds,
   } = useMalleableODI();
 
   const malleableODIState = malleableODIMap[id];
@@ -40,7 +41,6 @@ export const MalleableDetail = ({
         const { attributeId, element } = findDataOdiAttribute(target);
 
         if (attributeId && element) {
-          console.log(selectedAttributeIds, attributeId);
           if (selectedAttributeIds.includes(attributeId)) {
             removeSelectedAttributeIds(attributeId);
             element.setAttribute('data-odi-selecting', 'false');
@@ -82,6 +82,7 @@ export const MalleableDetail = ({
   if (malleableODIState && malleableODIState.selectedIndex >= 0 && detailUI) {
     return (
       <div
+        id={`odi-detail-${id}`}
         ref={detailRef}
         className={`odi-detail ${
           isCustomizing ? 'odi-customizing' : ''
@@ -97,7 +98,10 @@ export const MalleableDetail = ({
         {selectedAttributeIds.length > 0 && (
           <button
             className="px-2 py-1 bg-zinc-100 hover:bg-zinc-300"
-            onClick={() => {}}
+            onClick={() => {
+              // Show attribute in the overview
+              addShownAttributeIds(id, selectedAttributeIds);
+            }}
           >
             Show in main page
           </button>
@@ -112,7 +116,7 @@ export const MalleableDetail = ({
 const findDataOdiAttribute = (
   target: HTMLElement | null
 ): { attributeId: string | null; element: HTMLElement | null } => {
-  while (target && !target.classList.contains('odi-detail')) {
+  while (target && !target.id.startsWith('odi-detail')) {
     const attributeId = target.getAttribute('data-odi');
 
     if (attributeId) {

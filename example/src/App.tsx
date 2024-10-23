@@ -3,16 +3,23 @@ import MalleableOverview from "malleable-odi-toolkit-0.0/src/components/Malleabl
 import MalleableDetail from "malleable-odi-toolkit-0.0/src/components/MalleableDetail";
 
 import { Member, members } from "./members";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMalleableODI } from "../../src/store/malleable-odi-store";
 import { ODIItemProps } from "../../src/components/MalleableODI/MalleableODI";
 import edit from "./assets/edit.svg";
 
 function App() {
-  const { selectItem, getSelectedIndex, isCustomizing, setIsCustomizing } =
-    useMalleableODI();
+  const {
+    initializeAttributes,
+    selectItem,
+    getSelectedIndex,
+    isCustomizing,
+    setIsCustomizing,
+  } = useMalleableODI();
 
-  const hiddenAttributes = ["long-bio"];
+  // useEffect(() => {
+  //   initializeAttributes("first", [], ["profile-pic", "long-bio"]);
+  // }, []);
 
   const CustomizeButton = () => {
     return (
@@ -39,7 +46,12 @@ function App() {
             <CustomizeButton />
           </div>
           <hr />
-          <MalleableOverview id="first" itemList={members}>
+          <MalleableOverview
+            id="first"
+            itemList={members}
+            shownAttributeIds={[]}
+            hiddenAttributeIds={["profile-pic", "long-bio"]}
+          >
             {({ item, index, isSelected }: ODIItemProps) => (
               <div
                 className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}

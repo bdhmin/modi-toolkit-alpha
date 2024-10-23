@@ -1,12 +1,13 @@
-.odi-overview [data-odi] {
+/* .odi-overview [data-odi] {
   display: none;
-}
+} */
 
 .odi-detail.odi-customizing [data-odi] {
   background: #00000023;
   opacity: 0.3;
   outline: 2px solid black; 
   border-radius: 4px;
+  /* outline-offset: 3px; */
   cursor: pointer;
   transition: 0.15s ease;
 }
@@ -20,12 +21,20 @@
   outline: 2px solid #535353;
   background: #53535355;
   opacity: 1;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Adjust values for desired shadow effect */
+  scale: 1.01;
 }
 
 .odi-detail.odi-customizing [data-odi-selecting='true']:hover {
   background: #53535355;
   opacity: 0.8;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly larger shadow on hover */
 }
+
+.odi-hide {
+  display: none;
+}
+
 /* 
 .odi-detail.odi-customizing [data-odi-hide] {
   outline: 2px solid black;

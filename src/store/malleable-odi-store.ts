@@ -19,6 +19,7 @@ export interface Attribute {
 export interface MalleableODIsCollection {
   malleableODIMap: MalleableODIMap,
   setMalleableODIMap: (map: MalleableODIMap) => void;
+  addMalleableODI: (id: string, malleableODI: MalleableODIComponentState) => void;
   setMalleableODI: (id: string, malleableODI: Partial<MalleableODIComponentState>) => void;
 
   selectItem: (id: string, itemIndex: number) => void;
@@ -36,7 +37,7 @@ export interface MalleableODIsCollection {
   clearSelectedAttributeIds: () => void;
 
   // TODO: create funciton that initializes all attributes — also make a way to initialized show or not shown in overview!
-  // initializeAttributes: (attributeIds: string[]) => void;
+  initializeAttributes: (id: string, shownAttributeIds: string[], hiddenAttributeIds?: string[]) => void;
 
 
   addShownAttributeIds: (id: string, attributeIds: string[]) => void;
@@ -49,6 +50,13 @@ export interface MalleableODIsCollection {
 export const useMalleableODI = create<MalleableODIsCollection>((set, get) => ({
   malleableODIMap: {},
   setMalleableODIMap: (map) => set({ malleableODIMap: map }),
+  addMalleableODI: (id, malleableODI) => set((state) => {
+    state.malleableODIMap[id] = {
+      ...(state.malleableODIMap[id]??{}),
+      ...malleableODI
+    };
+    return state.malleableODIMap;
+  }),
   setMalleableODI: (id, malleableODI) => set((state) => {
     state.malleableODIMap[id] = {
       ...(state.malleableODIMap[id]??{}),
@@ -89,9 +97,30 @@ export const useMalleableODI = create<MalleableODIsCollection>((set, get) => ({
 
   // TODO: Add two functions to add and remove attributes in the customized list.
   // TODO: Update attributes to data-odi-hide or data-odi-show
+  initializeAttributes: (id, shownAttributeIds, hiddenAttributeIds?) => set((state) => {
+    const malleableODI = state.malleableODIMap[id];
+    if (!malleableODI) return state;
+
+    shownAttributeIds.forEach(attributeId => {
+      malleableODI.attributes[attributeId] = {
+        id: attributeId,
+        shown: true,
+      }
+    })
+    hiddenAttributeIds?.forEach(attributeId => {
+      malleableODI.attributes[attributeId] = {
+        id: attributeId,
+        shown: false,
+      }
+    })
+    state.malleableODIMap[id] = malleableODI;
+    return state.malleableODIMap;
+  }),
+
   addShownAttributeIds: (id, attributeIds) => set((state) => {
     const malleableODI = state.malleableODIMap[id];
     if (malleableODI) {
+      console.log('adding')
       attributeIds.forEach(attributeId => {
         if (malleableODI.attributes[attributeId]) {
           malleableODI.attributes[attributeId].shown = true;
