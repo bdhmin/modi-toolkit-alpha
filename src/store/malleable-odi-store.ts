@@ -118,9 +118,8 @@ export const useMalleableODI = create<MalleableODIsCollection>((set, get) => ({
   }),
 
   addShownAttributeIds: (id, attributeIds) => set((state) => {
-    const malleableODI = state.malleableODIMap[id];
+    const malleableODI = {...state.malleableODIMap[id]};
     if (malleableODI) {
-      console.log('adding')
       attributeIds.forEach(attributeId => {
         if (malleableODI.attributes[attributeId]) {
           malleableODI.attributes[attributeId].shown = true;
@@ -132,6 +131,7 @@ export const useMalleableODI = create<MalleableODIsCollection>((set, get) => ({
         }
       })
     }
+
     state.malleableODIMap[id] = malleableODI;
     return state.malleableODIMap;
   })

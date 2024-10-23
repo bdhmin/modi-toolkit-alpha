@@ -60,7 +60,7 @@ export const MalleableOverview = ({
         }
       });
     }
-  }, [malleableODIState?.attributes]);
+  }, [malleableODIState]);
 
   if (malleableODIState) {
     return (
