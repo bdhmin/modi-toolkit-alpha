@@ -13,6 +13,7 @@ export const MalleableDetail = ({
     malleableODIMap,
     setMalleableODI,
     isCustomizing,
+    setIsCustomizing,
     selectedAttributeIds,
     addSelectedAttributeIds,
     removeSelectedAttributeIds,
@@ -32,6 +33,25 @@ export const MalleableDetail = ({
     }
   }, [id, malleableODIState, setMalleableODI, itemList, children]);
 
+  // Apply class that indicates whether attribute is shown or hidden
+  useEffect(() => {
+    if (malleableODIState?.attributes && detailRef.current) {
+      const attributes = detailRef.current.querySelectorAll('[data-odi]');
+      attributes.forEach((attribute) => {
+        const attributeId = attribute.getAttribute('data-odi');
+        if (attributeId && malleableODIState.attributes[attributeId]) {
+          const { shown } = malleableODIState.attributes[attributeId];
+
+          if (shown) {
+            attribute.classList.add('odi-shown');
+          } else {
+            attribute.classList.remove('odi-shown');
+          }
+        }
+      });
+    }
+  }, [malleableODIState]);
+
   // Listen for click events to select an attribute whether to show or hide
   useEffect(() => {
     const clickEvent = (e: Event) => {
@@ -40,7 +60,11 @@ export const MalleableDetail = ({
         const target = e.target as HTMLElement;
         const { attributeId, element } = findDataOdiAttribute(target);
 
-        if (attributeId && element) {
+        if (
+          attributeId &&
+          element &&
+          !malleableODIState?.attributes[attributeId]?.shown
+        ) {
           if (selectedAttributeIds.includes(attributeId)) {
             removeSelectedAttributeIds(attributeId);
             element.setAttribute('data-odi-selecting', 'false');
@@ -75,7 +99,7 @@ export const MalleableDetail = ({
         });
       }
     };
-  }, [isCustomizing, selectedAttributeIds]);
+  }, [isCustomizing, selectedAttributeIds, malleableODIState]);
 
   const detailUI = children ? children : malleableODIState.overviewUI;
 
@@ -101,6 +125,7 @@ export const MalleableDetail = ({
             onClick={() => {
               // Show attribute in the overview
               addShownAttributeIds(id, selectedAttributeIds);
+              setIsCustomizing(false);
             }}
           >
             Show in main page

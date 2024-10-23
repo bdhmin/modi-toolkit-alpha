@@ -49,7 +49,13 @@ function App() {
           <MalleableOverview
             id="first"
             itemList={members}
-            shownAttributeIds={[]}
+            shownAttributeIds={[
+              "title",
+              // "profile-pic",
+              "name",
+              "email",
+              "short-bio",
+            ]}
             hiddenAttributeIds={["profile-pic", "long-bio"]}
           >
             {({ item, index, isSelected }: ODIItemProps) => (
@@ -69,7 +75,11 @@ function App() {
                     />
                   </div>
                   <div className="w-full flex flex-col justify-between p-2">
-                    <p className="flex justify-end text-sm">{item.title}</p>
+                    <div className="flex justify-end">
+                      <p data-odi="title" className="w-fit text-sm">
+                        {item.title}
+                      </p>
+                    </div>
                     {/* path+stringify(children) */}
                     {/* {odi.p('p', <></>, )} */}
                     {/* <ODI.p data-odi-hide='{item.title}' className='flex justify-end'>
@@ -77,14 +87,21 @@ function App() {
                     </ODI.p> */}
                     <div className="flex flex-col">
                       <h2
+                        data-odi="name"
                         className="w-fit font-bold my-0.5 cursor-pointer"
                         onClick={() => selectItem("first", index)}
                       >
                         {item.name}
                       </h2>
-                      <p className="text-zinc-400">{item.shortBio}</p>
+                      <p data-odi="short-bio" className="w-fit text-zinc-400">
+                        {item.shortBio}
+                      </p>
                     </div>
-                    <p className="flex justify-end text-sm">email</p>
+                    <div className="flex justify-end">
+                      <p data-odi="email" className="w-fit text-sm">
+                        email
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <div
@@ -119,7 +136,10 @@ function App() {
               <CustomizeButton />
               <button
                 className="text-black text-xl font-bold"
-                onClick={() => selectItem("first", -1)} // Close modal
+                onClick={() => {
+                  selectItem("first", -1);
+                  setIsCustomizing(false);
+                }} // Close modal
               >
                 &times;
               </button>
