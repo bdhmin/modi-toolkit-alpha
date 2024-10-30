@@ -15,7 +15,10 @@ function App() {
     getSelectedIndex,
     isCustomizing,
     setIsCustomizing,
+    malleableODIMap,
   } = useMalleableODI();
+
+  // malleableODIMap["first"].attributes;
 
   // useEffect(() => {
   //   initializeAttributes("first", [], ["profile-pic", "long-bio"]);
@@ -49,14 +52,20 @@ function App() {
           <MalleableOverview
             id="first"
             itemList={members}
-            shownAttributeIds={[
-              "title",
+            shownAttributeIds={
+              [
+                // "title",
+                // "profile-pic",
+                // "name",
+                // "email",
+                // "short-bio",
+              ]
+            }
+            hiddenAttributeIds={[
               // "profile-pic",
-              "name",
-              "email",
-              "short-bio",
+              // "short-bio",
+              "long-bio",
             ]}
-            hiddenAttributeIds={["profile-pic", "long-bio"]}
           >
             {({ item, index, isSelected }: ODIItemProps) => (
               <div
@@ -97,14 +106,23 @@ function App() {
                         {item.shortBio}
                       </p>
                     </div>
-                    <div className="flex justify-end">
-                      <p data-odi="email" className="w-fit text-sm">
+                    <div className="flex justify-end gap-4">
+                      <p
+                        data-odi="email"
+                        className="w-fit text-sm hover:bg-zinc-300 px-2 py-1 cursor-pointer"
+                      >
                         email
+                      </p>
+                      <p
+                        data-odi="email"
+                        className="w-fit text-sm hover:bg-zinc-300 px-2 py-1 cursor-pointer"
+                      >
+                        website
                       </p>
                     </div>
                   </div>
                 </div>
-                <div
+                {/* <div
                   data-odi="long-bio"
                   // data-odi-hide="long-bio"
                   // key='long-bio'
@@ -116,7 +134,7 @@ function App() {
                       <div className="my-4" />
                     </React.Fragment>
                   ))}
-                </div>
+                </div> */}
               </div>
             )}
           </MalleableOverview>
@@ -132,7 +150,7 @@ function App() {
 
           {/* Modal content */}
           <div className="w-[80%] max-w-[960px] bg-white p-6 shadow-lg rounded-lg z-10">
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 mb-4">
               <CustomizeButton />
               <button
                 className="text-black text-xl font-bold"
@@ -148,24 +166,74 @@ function App() {
             {/* Detail Content */}
             {/* <MalleableDetail id="first" itemList={members} /> */}
             <MalleableDetail id="first" itemList={members}>
-              {/* {({ item, index, isSelected }: ODIItemProps) => (
+              {({ item, index, isSelected }: ODIItemProps) => (
                 <div
                   className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
                 >
-                  <OverviewContentOnly {...{ item, index, isSelected }} />
+                  <div className="flex flex-row w-full gap-4">
+                    <div
+                      data-odi="profile-pic"
+                      className="min-w-[260px] max-w-[260px] h-[320px] overflow-hidden cursor-pointer"
+                      onClick={() => selectItem("first", index)}
+                    >
+                      <img
+                        className="w-full h-full object-cover"
+                        alt={`profile-${item.name}`}
+                        src={item.profilePic}
+                      />
+                    </div>
+                    <div className="w-full flex flex-col justify-start p-2 gap-4">
+                      <div className="flex justify-between">
+                        <div className="flex flex-col">
+                          <h2
+                            data-odi="name"
+                            className="w-fit font-bold my-0.5 text-2xl"
+                            // onClick={() => selectItem("first", index)}
+                          >
+                            {item.name}
+                          </h2>
+                          <p
+                            data-odi="short-bio"
+                            className="w-fit text-zinc-400"
+                          >
+                            {item.shortBio}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end gap-2">
+                          <p data-odi="title" className="w-fit">
+                            {item.title}
+                          </p>
+                          <div className="flex justify-end gap-4">
+                            <p
+                              data-odi="email"
+                              className="w-fit text-sm hover:bg-zinc-300 px-2 py-1 cursor-pointer"
+                            >
+                              email
+                            </p>
+                            <p
+                              data-odi="email"
+                              className="w-fit text-sm hover:bg-zinc-300 px-2 py-1 cursor-pointer"
+                            >
+                              website
+                            </p>
+                          </div>
+                        </div>
+                      </div>
 
-                  <div className="my-2">
-                    {item.longBio
-                      .split("\n")
-                      .map((line: any, index: number) => (
-                        <React.Fragment key={index}>
-                          {line}
-                          <div className="my-4" />
-                        </React.Fragment>
-                      ))}
+                      <div data-odi="long-bio" className="my-2">
+                        {item.longBio
+                          .split("\n")
+                          .map((line: any, index: number) => (
+                            <React.Fragment key={index}>
+                              {line}
+                              <div className="my-4" />
+                            </React.Fragment>
+                          ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              )} */}
+              )}
             </MalleableDetail>
           </div>
         </div>

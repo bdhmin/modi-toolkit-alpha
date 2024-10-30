@@ -43,9 +43,9 @@ export const MalleableDetail = ({
           const { shown } = malleableODIState.attributes[attributeId];
 
           if (shown) {
-            attribute.classList.add('odi-shown');
+            attribute.classList.remove('odi-hdie');
           } else {
-            attribute.classList.remove('odi-shown');
+            attribute.classList.add('odi-hide');
           }
         }
       });
@@ -119,9 +119,9 @@ export const MalleableDetail = ({
             index: malleableODIState.selectedIndex, // TODO: need to also input the index of this???,
             isSelected: false,
           })}
-        {selectedAttributeIds.length > 0 && (
+        {isCustomizing && selectedAttributeIds.length > 0 && (
           <button
-            className="px-2 py-1 bg-zinc-100 hover:bg-zinc-300"
+            className="px-2 py-1 bg-zinc-200 hover:bg-zinc-300"
             onClick={() => {
               // Show attribute in the overview
               addShownAttributeIds(id, selectedAttributeIds);
