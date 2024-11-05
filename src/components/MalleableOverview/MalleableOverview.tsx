@@ -5,7 +5,11 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import { Attribute, useMalleableODI } from '../../store/malleable-odi-store';
+import {
+  Attribute,
+  AttributeUIObject,
+  useMalleableODI,
+} from '../../store/malleable-odi-store';
 import { MalleableODIProps } from '../MalleableODI/MalleableODI';
 import React from 'react';
 import '../../styles/odi-attributes.css';
@@ -13,12 +17,14 @@ import '../../styles/odi-attributes.css';
 export const MalleableOverview = ({
   id,
   itemList,
+  attributeUIs,
+  // shownAttributeIds,
+  // hiddenAttributeIds,
   children,
-  shownAttributeIds,
-  hiddenAttributeIds,
 }: MalleableODIProps & {
-  shownAttributeIds: string[];
-  hiddenAttributeIds: string[];
+  // shownAttributeIds: string[];
+  // hiddenAttributeIds: string[];
+  attributeUIs: AttributeUIObject[][];
 }) => {
   const overviewRef = useRef<HTMLDivElement | null>(null);
 
@@ -34,8 +40,10 @@ export const MalleableOverview = ({
         overviewUI: children,
         selectedIndex: -1,
         attributes: [
-          ...shownAttributeIds.map((a) => ({ id: a, shown: true })),
-          ...hiddenAttributeIds.map((a) => ({ id: a, shown: false })),
+          // ...shownAttributeIds.map((a) => ({ id: a, shown: true })),
+          // ...hiddenAttributeIds.map((a) => ({ id: a, shown: false })),
+          ...(attributeUIs.at(0)?.map((a) => ({ id: a.id, shown: a.shown })) ??
+            []),
         ].reduce((acc: { [attributeId: string]: Attribute }, { id, shown }) => {
           acc[id] = { id, shown };
           return acc;

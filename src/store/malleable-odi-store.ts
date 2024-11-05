@@ -16,6 +16,17 @@ export interface Attribute {
   shown: boolean; // Whether this attribute is shown in the overview
 }
 
+export type AttributeUIType = 'text-main' | 'text' | 'image';
+
+export interface AttributeUIObject {
+  id: string;
+  value: any;
+  type: AttributeUIType;
+  shown: boolean;
+}
+
+export type ComponentDefault = 'profile';
+
 export interface MalleableODIsCollection {
   malleableODIMap: MalleableODIMap,
   setMalleableODIMap: (map: MalleableODIMap) => void;

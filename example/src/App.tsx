@@ -52,22 +52,43 @@ function App() {
           <MalleableOverview
             id="first"
             itemList={members}
-            shownAttributeIds={
-              [
-                // "title",
-                // "profile-pic",
-                // "name",
-                // "email",
-                // "short-bio",
-              ]
-            }
-            hiddenAttributeIds={[
-              // "profile-pic",
-              // "short-bio",
-              "long-bio",
-            ]}
+            // shownAttributeIds={
+            //   [
+            //     // "title",
+            //     // "profile-pic",
+            //     // "name",
+            //     // "email",
+            //     // "short-bio",
+            //   ]
+            // }
+            // hiddenAttributeIds={[
+            //   // "profile-pic",
+            //   // "short-bio",
+            //   "long-bio",
+            // ]}
+            attributeUIs={members.map((member) => [
+              {
+                id: "title",
+                value: member.title,
+                type: "text",
+                shown: false,
+              },
+              {
+                id: "name",
+                value: member.name,
+                type: "text",
+                shown: false,
+              },
+              {
+                id: "profile-pic",
+                value: member.profilePic,
+                type: "image",
+                shown: false,
+              },
+            ])}
           >
-            {({ item, index, isSelected }: ODIItemProps) => (
+            {() => <div>hello</div>}
+            {/* {({ item, index, isSelected }: ODIItemProps) => (
               <div
                 className={`w-full flex flex-col gap-2 p-2 ${isSelected ? "bg-zinc-200" : "none"}`}
               >
@@ -89,11 +110,6 @@ function App() {
                         {item.title}
                       </p>
                     </div>
-                    {/* path+stringify(children) */}
-                    {/* {odi.p('p', <></>, )} */}
-                    {/* <ODI.p data-odi-hide='{item.title}' className='flex justify-end'>
-                      {item.title}
-                    </ODI.p> */}
                     <div className="flex flex-col">
                       <h2
                         data-odi="name"
@@ -122,7 +138,7 @@ function App() {
                     </div>
                   </div>
                 </div>
-                {/* <div
+                <div
                   data-odi="long-bio"
                   // data-odi-hide="long-bio"
                   // key='long-bio'
@@ -134,9 +150,9 @@ function App() {
                       <div className="my-4" />
                     </React.Fragment>
                   ))}
-                </div> */}
+                </div>
               </div>
-            )}
+            )} */}
           </MalleableOverview>
         </div>
       </div>
