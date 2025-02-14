@@ -1,11 +1,11 @@
-import MalleableODI from "malleable-odi-toolkit-0.0/src/components/MalleableODI";
-import MalleableOverview from "malleable-odi-toolkit-0.0/src/components/MalleableOverview";
-import MalleableDetail from "malleable-odi-toolkit-0.0/src/components/MalleableDetail";
+import MalleableODI from "../../src/components-old/MalleableODI";
+import MalleableOverview from "../../src/components-old/MalleableOverview";
+import MalleableDetail from "../../src/components-old/MalleableDetail";
 
 import { Member, members } from "./members";
 import React, { useEffect, useState } from "react";
 import { useMalleableODI } from "../../src/store/malleable-odi-store";
-import { ODIItemProps } from "../../src/components/MalleableODI/MalleableODI";
+import { ODIItemProps } from "../../src/components-old/MalleableODI/MalleableODI";
 import edit from "./assets/edit.svg";
 
 function App() {

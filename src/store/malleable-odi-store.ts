@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ODIItemProps } from "../components/MalleableODI/MalleableODI";
+import { ODIItemProps } from "../components-old/MalleableODI/MalleableODI";
 
 export interface MalleableODIComponentState {
   itemList: any[];
