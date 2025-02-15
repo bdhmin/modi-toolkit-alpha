@@ -1,17 +1,6 @@
-import { Attribute, Layout } from '../../spec/spec';
+import { Detail, OverviewConfig } from '../../spec/spec';
 
-export const BasicList = (config: {
-  attributeOrganizations: {
-    title: Attribute[];
-    thumbnail: Attribute[];
-    subtitle: Attribute[];
-    descriptions: Attribute[];
-    keyPoints: Attribute[];
-    buttons: Attribute[];
-    additionalInfo: Attribute[];
-  }[];
-}): Layout => ({
-  label: 'basic-list',
-  anchorAttributeConditions: [() => true],
-  attributeOrganizations: config.attributeOrganizations,
-});
+export interface BasicList extends OverviewConfig {
+  type: 'basic-list';
+  details: Detail[];
+}

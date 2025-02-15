@@ -1,31 +1,51 @@
-export interface ODI {
-  // id: string;
-  ODILayout:
-    | 'NEW PAGE'
-    | 'SIDE-BY-SIDE'
-    | 'IN PLACE'
-    | 'UNDER OVERVIEW'
-    | 'ABOVE OVERVIEW';
-  // overviews: Overview<any>[];
-  overviews: Overview[];
-  attributes: Attribute[];
+import { BasicDetail } from "../components/detail-views/basic-detail";
+import { BasicGrid } from "../components/overviews/basic-grid";
+import { BasicList } from "../components/overviews/basic-list";
+import { BasicMap } from "../components/overviews/basic-map";
+
+export interface AttributeSet {
+  thumbnail: Attribute[];
+  title: Attribute[];
+  subtitle: Attribute[];
+  descriptions: Attribute[];
+  keyPoints: Attribute[];
+  buttons: Attribute[];
+  additionalInfo: Attribute[];
 }
 
-// export interface Overview {
-//   shownAttributes: Attribute[] | {[key: string]: Attribute[]};
-//   anchorAttributes: Attribute[]; // anchor attributes are attributes that basically filter which layouts are possible
-//   layout: Layout<Record<string, Attribute[]>>;
-//   // TODO: Synchronization? attributes synchronization, item synchronization, layout synchronization, ...?
-// }
-// shownAttributes: T; // Ensures consistency with layout's expected attributes
-// anchorAttributes: Attribute[]; // Used for filtering applicable layouts
-// type: 'LIST' | 'GRID' | 'TABLE' | 'MAP' | 'HIERARCHY' | 'TIMELINE' | 'PLOT';
+export const emptyAttributeSet: AttributeSet = {
+  thumbnail: [],
+  title: [],
+  subtitle: [],
+  descriptions: [],
+  keyPoints: [],
+  buttons: [],
+  additionalInfo: [],
+};
 
-// export interface Overview<T extends Record<string, Attribute[]>> {
-export interface Overview {
-  // layout: Layout<T>;
-  layout: Layout;
-  attributes: [];
+// export interface OD {
+//   overviews: Overview[];
+//   attributeSet: AttributeSet[];
+// }
+
+export interface ODI {
+  overviews: Overview[];
+  attributeSet: AttributeSet[];
+}
+
+export type Overview = BasicList | BasicMap | BasicGrid;
+
+export interface OverviewConfig {
+  type: string;
+  details?: Detail[];
+  attributeSet?: AttributeSet[];
+}
+
+export type Detail = BasicDetail;
+
+export interface DetailConfig {
+  type: string;
+  openIn: ODLayout;
 }
 
 export interface Attribute {
@@ -53,18 +73,5 @@ export interface Attribute {
   // listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions;
 }
 
-interface LayoutConfig<T extends Record<string, Attribute[]>> {
-  // attributePositions?: { [key: string]: 'top' | 'left' | 'right' | 'bottom' | 'hidden' };
-  attributeOrganizations?: T;
-  // pagination?: boolean;
-  // filtering?: boolean;
-  // sorting?: boolean;
-}
 
-// export interface Layout<T extends Record<string, Attribute[]>> {
-export interface Layout {
-  label: string;
-  anchorAttributeConditions: ((attributes: Attribute[]) => boolean)[];
-  attributeOrganizations: Record<string, Attribute[]>[];
-  // config: (attributes: T) => LayoutConfig<T>;
-}
+export type ODLayout = 'new page' | 'side-by-side' | 'replace' | 'popup';
